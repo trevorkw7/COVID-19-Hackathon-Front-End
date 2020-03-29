@@ -3,55 +3,75 @@ import './App.css';
 import TopBar from './components/TopBar.js';
 import LocationButton from './components/LocationButton.js';
 import Center from 'react-center';
-import InstructionText from './components/InstructionText.js';
 import Table from './components/Table.js';
+import { Helmet } from 'react-helmet'
+import { render } from '@testing-library/react';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 
 function App() {
 
-  let json; 
-  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  //contains all data
   const [apiData, setApiData] = useState(null);
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState(" ");
+  //contains table data
+  const [sentApi, setSentApi] = useState(null);
 
   function handleChildClick(latitude, longitude) {
     setLoading(true);
-    fetchData(latitude, longitude).then((file) => setApiData(file));
+    fetchData(latitude, longitude).then((file) =>
+      setApiData(file))
+    fetchData(latitude, longitude).then((file) =>
+      setSentApi(file))
   }
 
 
   async function fetchData(latitude, longitude) {
     const url = 'http://corona-19-hackathon.herokuapp.com/location/stats?lat=' + latitude + '&lng=' + longitude;
-      const response = await fetch(url);
-      setLoading(false);
-      return await response.json(); 
+    // const url = 'https://corona-19-hackathon.herokuapp.com/location/stats?lat=40.712&lng=-122.1684';
+    const response = await fetch(url);
+    return await response.json();
+
   }
   
-  useEffect(() => {
-    if(apiData!= null){
-      console.log(apiData['Stay_Home'])
-      if(apiData["Stay_Home"]){
-        setResult('Yes')
-      }
-      else{
-        setResult('Advised')
-      }
+  function renderInstructiions(){
+    if (apiData['Stay Home'])
+      return(['Yes', '(Order Issued)'])
+    else {
+    setResult('Advised', null);
     }
-  })
-
-
+  }
 
   return (
     <div className="App">
+      <Helmet>
+        <style>{'body { background-color: #F5F5F5 }'}</style>
+      </Helmet>
       <TopBar className='bar' />
       <Center>
-        <InstructionText className='instruction-text' result={result} />
+        <Paper>
+          <Typography variant='h4' color='inherit' align='center'>
+            Should I social distance myself?
+          </Typography>
+          
+          {apiData != null ? <React.Fragment><Typography variant='h2' color='inherit' align='center'>
+            {renderInstructiions()[0]}
+          </Typography>
+          <Typography variant='body1' color='inherit' align='center'>
+            {renderInstructiions()[1]}
+          </Typography> </React.Fragment> : null}
+
+
+        </Paper>
       </Center>
       <Center>
         <LocationButton className='location-button' onChildClick={handleChildClick} />
-        {error ? "server-error" : null}
+        {/* {error ? "server-error" : null} */}
       </Center>
-      {apiData!=null ? <Table className='table' data={apiData} /> : null}
+      <Center>
+        {sentApi != null ? <Table className='table' data={sentApi} /> : null}
+      </Center>
     </div>
   );
 }

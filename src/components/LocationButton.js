@@ -6,25 +6,25 @@ import LocationOnIcon from '@material-ui/icons/LocationOn';
 const useStyles = makeStyles(theme => ({
     root: {
         '& > *': {
-            margin: theme.spacing(20),
+            margin: theme.spacing(1),
         },
     },
 }));
 
 
 
-export default function LocationButton({onChildClick}) {
+export default function LocationButton({ onChildClick }) {
 
     const classes = useStyles();
 
     function getLocation() {
         if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(setPosition);
+            navigator.geolocation.getCurrentPosition(setPosition);
         } else {
-           console.log("Geolocation is not supported by this browser.");
+            console.log("Geolocation is not supported by this browser.");
         }
-      }
-      
+    }
+
     async function setPosition(position) {
         console.log(position.coords.latitude, position.coords.longitude)
         await onChildClick(position.coords.latitude, position.coords.longitude)
@@ -32,9 +32,14 @@ export default function LocationButton({onChildClick}) {
 
     return (
         <div className={classes.root}>
-            <IconButton aria-label='get-location' color="secondary" onClick={getLocation}>
-                <LocationOnIcon style={{fontSize: 100}} />
-            </IconButton>
+            <div id="container">
+                <div className="item">
+                    <IconButton aria-label='get-location' color="secondary" onClick={getLocation}>
+                        <LocationOnIcon style={{ fontSize: 100 }} />
+                    </IconButton>
+                </div>
+                <div className="circle"></div>
+            </div>
         </div>
     );
 }
