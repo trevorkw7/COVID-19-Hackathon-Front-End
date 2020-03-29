@@ -1,13 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import './App.css';
 import TopBar from './components/TopBar.js';
 import LocationButton from './components/LocationButton.js';
 import Center from 'react-center';
 import Table from './components/Table.js';
 import { Helmet } from 'react-helmet'
-import { render } from '@testing-library/react';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+      width: '100%',
+      
+      backgroundColor: theme.palette.background.paper,
+  },
+}));
 
 function App() {
 
@@ -43,6 +51,7 @@ function App() {
     }
   }
 
+  const classes = useStyles();
   return (
     <div className="App">
       <Helmet>
@@ -55,12 +64,13 @@ function App() {
             Should I social distance myself?
           </Typography>
           
-          {apiData != null ? <React.Fragment><Typography variant='h2' color='inherit' align='center'>
+          {apiData != null ? <div className={classes.root}>
+            <React.Fragment><Typography variant='h2' color='inherit' align='center'>
             {renderInstructiions()[0]}
           </Typography>
           <Typography variant='body1' color='inherit' align='center'>
             {renderInstructiions()[1]}
-          </Typography> </React.Fragment> : null}
+          </Typography> </React.Fragment> </div>: null}
 
 
         </Paper>

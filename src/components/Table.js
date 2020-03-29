@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
@@ -10,6 +10,12 @@ import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
 import Popover from '@material-ui/core/Popover';
 import Typography from '@material-ui/core/Typography';
+import {
+  usePopupState,
+  bindTrigger,
+  bindPopover,
+} from 'material-ui-popup-state/hooks';
+
 
 const useStyles = makeStyles({
   table: {
@@ -32,17 +38,26 @@ const SimpleTable = (props) => {
 
   const classes = useStyles();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
+  const popupState0 = usePopupState({
+    variant: 'popover',
+    popupId: 'demoPopover',
+  })
+  const popupState1 = usePopupState({
+    variant: 'popover',
+    popupId: 'demoPopover',
+  })
+  const popupState2 = usePopupState({
+    variant: 'popover',
+    popupId: 'demoPopover',
+  })
+  const popupState3 = usePopupState({
+    variant: 'popover',
+    popupId: 'demoPopover',
+  })
+  const popupState4 = usePopupState({
+    variant: 'popover',
+    popupId: 'demoPopover',
+  })
 
 
   return (
@@ -58,12 +73,9 @@ const SimpleTable = (props) => {
               <React.Fragment key='table-contents'>
                 <TableRow>
                   <TableCell align="center" key={caption[0]}>
-                    <IconButton onClick={handleClick}><InfoIcon /></IconButton>
+                    <IconButton {...bindTrigger(eval('popupState' + index))}><InfoIcon /></IconButton>
                     <Popover
-                    id={index}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
+                    {...bindPopover(eval('popupState' + index))}
                     anchorOrigin={{
                       vertical: 'bottom',
                       horizontal: 'center',
