@@ -1,7 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
@@ -10,48 +9,43 @@ import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 400,
+    minWidth: 20,
   },
 });
 
-function createData(Criteria, Result) {
-  return { Criteria, Result };
-}
+const SimpleTable = (props) => {
 
-const rows = [
-  createData('Confirmed Cases', 1577),
-  createData('Growth Index', 0.0017995213765673711),
-  createData('Population Density', 912.9),
-  createData('High Risk Peoples', 1500),
-  createData('Death Rate', 1.4533333333333334),
-];
+  const remove = ['County_Coords', 'County', 'Deaths', 'Infected_Rate_Growth', 'Land_Area', 'Population','State']
+  let data = props.data;
+ 
+  for(var i=0; i<remove.length; i++){
+    delete data[remove[i]]
+  }
+  
+  let entries = Object.entries(data);
 
-export default function SimpleTable() {
   const classes = useStyles();
-
   return (
-    <TableContainer component={Paper}>
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Criteria</TableCell>
-            <TableCell align="right">Result</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right"></TableCell>
-              <TableCell align="right"></TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <div>
+      <TableContainer component={Paper}>
+        <Table className={classes.table} aria-label="simple table">
+          <TableHead>
+            
+              <TableCell align="center">Criteria</TableCell>
+              <TableCell align="center">Result</TableCell>
+              {entries.map((caption, index) => (
+                <React.Fragment>
+                  <TableRow>
+                <TableCell align="center" key={caption[0]}>{caption[0]}</TableCell>
+                <TableCell align="center" key={caption[1]}>{caption[1]}</TableCell>
+                </TableRow>
+                </React.Fragment>
+              ))}
+          </TableHead>
+        </Table>
+      </TableContainer>
+    </div>
   );
 }
+
+export default SimpleTable;
