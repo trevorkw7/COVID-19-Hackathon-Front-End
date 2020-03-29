@@ -36,7 +36,7 @@ function App() {
 
 
   async function fetchData(latitude, longitude) {
-    const url = 'http://corona-19-hackathon.herokuapp.com/location/stats?lat=' + latitude + '&lng=' + longitude;
+    const url = 'https://corona-19-hackathon.herokuapp.com/location/stats?lat=' + latitude + '&lng=' + longitude;
     // const url = 'https://corona-19-hackathon.herokuapp.com/location/stats?lat=40.712&lng=-122.1684';
     const response = await fetch(url);
     return await response.json();
