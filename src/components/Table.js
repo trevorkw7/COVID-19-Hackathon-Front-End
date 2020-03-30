@@ -15,15 +15,30 @@ import {
   bindTrigger,
   bindPopover,
 } from 'material-ui-popup-state/hooks';
+import Box from '@material-ui/core/Box';
+import { scaleLinear } from 'd3-scale';
 
-
+var colorScale = scaleLinear().domain([0, 100]).range(["#ff5a36","#ffb042"]);
+// function rgbToHex(rgb) {
+//   rgb.r
+//   return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+// }
 const useStyles = makeStyles({
   table: {
-    width: 800,
+    minWidth: "100",
+    width: "75vw",
   },
+  popover: {
+    maxWidth: "300",
+    width: "auto",
+  },
+  cell: {
+    padding: 5,
+    margin: 5
+  }
 });
 
-const criteriaDescription = ["By removing deaths and recoveries from total cases, we get \"currently infected cases\" or \"active cases\".", "Multiplier for death rate increase in last 5 days. Calculation: (current death rate - death rate 5 days ago)/5", "Culmalative value for Active Cases, Deaths, and Death Rate", "Population Count of people 65 and older (US Census - 2011)", "People per square mile"]
+const criteriaDescription = ["By removing deaths and recoveries from total cases, we get \"currently infected cases\" or \"active cases\" (John Hopkins Dataset).", "Multiplier for death rate increase in last 5 days (John Hopkins Dataset). Calculation: (current death rate - death rate 5 days ago / 5).", "Population count in county of people 65 and older (US Census Bureau - 2011).", "People per square mile in county (US Census Bureau - 2011).", "(Higher is Better) Cumulative index used to determine if one should social distance according to the following factors: Active Cases, Population Density, Infected Rate Growth, Death Rate Growth, Deaths, High Risk Population. Sources: US Census Bureau, John Hopkins Dataset"]
 
 const SimpleTable = (props) => {
 
@@ -65,36 +80,42 @@ const SimpleTable = (props) => {
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
+            <TableCell align="right" style={{ maxWidth: '10px' }}></TableCell>
             <TableCell align="center">
               Criteria
               </TableCell>
             <TableCell align="center">Result</TableCell>
             {entries.map((caption, index) => (
-              <React.Fragment key='table-contents'>
+              <React.Fragment key={caption}>
                 <TableRow>
-                  <TableCell align="center" key={caption[0]}>
-                    <IconButton {...bindTrigger(eval('popupState' + index))}><InfoIcon /></IconButton>
+                  <TableCell align="right" style={{ padding: 0, margin: 0, maxWidth: '10px' }}><IconButton {...bindTrigger(eval('popupState' + index))}><InfoIcon /></IconButton></TableCell>
+                  <TableCell align="center" key={caption[0]} className={classes.cell}>
                     <Popover
-                    {...bindPopover(eval('popupState' + index))}
-                    anchorOrigin={{
-                      vertical: 'bottom',
-                      horizontal: 'center',
-                    }}
-                    transformOrigin={{
-                      vertical: 'top',
-                      horizontal: 'center',
-                    }}
+                      {...bindPopover(eval('popupState' + index))}
+                      anchorOrigin={{
+                        vertical: 'center',
+                        horizontal: 'left',
+                      }}
+                      transformOrigin={{
+                        vertical: 'center',
+                        horizontal: 'center',
+                      }}
+                      className={classes.popover}
                     >
-                      <Typography variant=
-                      'body2'>
-                        {criteriaDescription[index]}
-                      </Typography>
+                      <Box p={2}>
+                        <Typography variant=
+                          'body2'>
+                          {criteriaDescription[index]}
+                        </Typography>
+                      </Box>
 
                     </Popover>
                     {caption[0]}
                   </TableCell>
-                  <TableCell align="center" key={caption[1]}>
+                  <TableCell align="center" className={classes.cell} key={caption[1]}>
+                    <Typography style = {{color:caption[0] == 'Safe Score' ? colorScale(data["Safe Score"]) : 'inherit'}}>
                     {caption[1]}
+                    </Typography>
                   </TableCell>
                 </TableRow>
               </React.Fragment>

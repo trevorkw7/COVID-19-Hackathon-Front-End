@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
+import Typography from '@material-ui/core/Typography'
 
 
 const useStyles = makeStyles(theme => ({
@@ -22,7 +23,7 @@ export default function LocationButton({ onChildClick }) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(setPosition);
         } else {
-            console.log("Geolocation is not supported by this browser.");
+            alert("Geolocation is not supported by this browser.");
         }
     }
 
@@ -33,12 +34,15 @@ export default function LocationButton({ onChildClick }) {
 
     return (
         <div className={classes.root}>
-            <div id="container">
+            <div id="container" align="center">
                 <div className="item">
                     <IconButton aria-label='get-location' color="secondary" onClick={getLocation}>
                         <LocationOnIcon style={{ fontSize: 100 }} />
                     </IconButton>
                 </div>
+                <Typography variant="h6">
+                Click me!
+                </Typography>
                 <div className="circle"></div>
             </div>
         </div>

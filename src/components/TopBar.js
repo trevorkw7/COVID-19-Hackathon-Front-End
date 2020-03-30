@@ -18,7 +18,7 @@ export default function TopBar() {
       <AppBar position="static" color='primary'>
         <Toolbar variant="dense">
           <Typography variant="h5" color="inherit">
-            Social Distance Determiner
+            Safe Score: A Social Distance Determiner
           </Typography>
         </Toolbar>
       </AppBar>

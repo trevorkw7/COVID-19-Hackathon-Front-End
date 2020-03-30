@@ -1,13 +1,16 @@
 {
-  "name": "should-i-social-distance",
+  "name": "safe-score",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.8",
     "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.47",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "autosuggest-highlight": "^3.1.1",
+    "d3-scale": "^3.2.1",
     "material-ui-popup-state": "^1.5.3",
     "react": "^16.13.1",
     "react-center": "^1.1.1",
@@ -15,8 +18,11 @@
     "react-geolocated": "^3.0.1",
     "react-helmet": "^5.2.1",
     "react-hook-geolocation": "^1.0.6",
+    "react-loading": "^2.0.3",
+    "react-places-autocomplete": "^7.2.1",
     "react-scripts": "3.4.1",
-    "use-global-hook": "^0.1.12"
+    "use-global-hook": "^0.1.12",
+    "use-places-autocomplete": "^1.0.4"
   },
   "scripts": {
     "start": "react-scripts start",
