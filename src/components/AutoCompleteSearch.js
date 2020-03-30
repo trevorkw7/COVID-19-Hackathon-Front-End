@@ -124,7 +124,7 @@ export default function AutoComplete({ onChildClick }) {
                 setInputValue(params.inputProps.value);
                 return <TextField
                     {...params}
-                    label="Enter a Location"
+                    label="Enter a US City/Address"
                     variant="outlined"
                     fullWidth
                     onChange={handleChange}
