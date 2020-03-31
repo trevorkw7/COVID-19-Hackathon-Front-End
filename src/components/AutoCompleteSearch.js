@@ -35,6 +35,7 @@ export default function AutoComplete({ onChildClick }) {
     // const [title, setTitle] = React.useState('')
     const [options, setOptions] = React.useState([]);
     const loaded = React.useRef(false);
+    const [selectedOption, setSelectedOption] = React.useState(null)
 
     function click() {
         onChildClick(inputValue);
@@ -77,6 +78,9 @@ export default function AutoComplete({ onChildClick }) {
                 click()
             }
         }
+        if (selectedOption != null) {
+            onChildClick(selectedOption)
+        }
 
         function click() {
             onChildClick(inputValue);
@@ -107,9 +111,6 @@ export default function AutoComplete({ onChildClick }) {
         };
     }, [inputValue, fetch]);
 
-    const handleChangeSelected = (event) => {
-        setInputValue(event.target.value);
-    };
 
     return (
         <Autocomplete
@@ -120,6 +121,10 @@ export default function AutoComplete({ onChildClick }) {
             options={options}
             autoComplete
             includeInputInList
+            onChange={(event, value) => {
+                if (value != null)
+                    setSelectedOption(value['description'])
+            }}
             renderInput={(params) => {
                 setInputValue(params.inputProps.value);
                 return <TextField
@@ -130,7 +135,7 @@ export default function AutoComplete({ onChildClick }) {
                     onChange={handleChange}
                     onKeyDown={handleKeyDown}
                 />
-                    ;
+
             }}
             renderOption={(option) => {
                 const matches = option.structured_formatting.main_text_matched_substrings;

@@ -124,8 +124,9 @@ function App() {
 
       </Center>
       <Center>
-        <LocationButton className='location-button' onChildClick={handleChildClick} />
-        <AutoCompleteSearch className='search-button' onChildClick={handleAddressClick}></AutoCompleteSearch>
+        <LocationButton className={classes.locationButton} onChildClick={handleChildClick} />
+        <Typography color='inherit' style={{paddingRight: '40px'}}> OR </Typography>
+        <AutoCompleteSearch className={classes.searchButton} onChildClick={handleAddressClick}></AutoCompleteSearch>
       </Center>
 
       {loading ? null : <div> <Center><ReactLoading type="spin" color='#5fb4ed' height={100} width={100} /></Center>
