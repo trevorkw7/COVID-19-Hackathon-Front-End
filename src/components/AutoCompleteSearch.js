@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
@@ -8,17 +8,17 @@ import { makeStyles } from '@material-ui/core/styles';
 import parse from 'autosuggest-highlight/parse';
 import throttle from 'lodash/throttle';
 
-function loadScript(src, position, id) {
-    if (!position) {
-        return;
-    }
+// function loadScript(src, position, id) {
+//     if (!position) {
+//         return;
+//     }
 
-    const script = document.createElement('script');
-    script.setAttribute('async', '');
-    script.setAttribute('id', id);
-    script.src = src;
-    position.appendChild(script);
-}
+//     const script = document.createElement('script');
+//     script.setAttribute('async', '');
+//     script.setAttribute('id', id);
+//     script.src = src;
+//     position.appendChild(script);
+// }
 
 const autocompleteService = { current: null };
 
@@ -47,17 +47,17 @@ export default function AutoComplete({ onChildClick }) {
     }
 
 
-    if (typeof window !== 'undefined' && !loaded.current) {
-        if (!document.querySelector('#google-maps')) {
-            loadScript(
-                'https://maps.googleapis.com/maps/AIzaSyAT26YNvAtESRTdZnp25r85aoVI5XmbTzA/js?key=' + process.env.REACT_APP_MAPS_KEY + '&libraries=places',
-                document.querySelector('head'),
-                'google-maps',
-            );
-        }
+    // if (typeof window !== 'undefined' && !loaded.current) {
+    //     if (!document.querySelector('#google-maps')) {
+    //         loadScript(
+    //             'https://maps.googleapis.com/maps/api/js?key=' + process.env.REACT_APP_MAPS_KEY + '&libraries=places',
+    //             document.querySelector('head'),
+    //             'google-maps',
+    //         );
+    //     }
 
-        loaded.current = true;
-    }
+    //     loaded.current = true;
+    // }
 
     const handleChange = (event) => {
         setInputValue(event.target.value);
@@ -73,18 +73,13 @@ export default function AutoComplete({ onChildClick }) {
 
     React.useEffect(() => {
 
-        const handleKeyDown = (e) => {
-            if (e.key === 'Enter') {
-                click()
-            }
-        }
         if (selectedOption != null) {
             onChildClick(selectedOption)
         }
 
-        function click() {
-            onChildClick(inputValue);
-        }
+        // function click() {
+        //     onChildClick(inputValue);
+        // }
 
         let active = true;
 
@@ -115,15 +110,28 @@ export default function AutoComplete({ onChildClick }) {
     return (
         <Autocomplete
             id="autocomplete-search"
-            style={{ width: 300 }}
+            style={{ width: '300px' }}
             getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
             filterOptions={(x) => x}
             options={options}
             autoComplete
             includeInputInList
-            onChange={(event, value) => {
-                if (value != null)
+            getOptionSelected={(option, value) => option['description'] === value['description']}
+            // getOptionLabel = {(value) =>{
+            //     console.log('ehllo')
+            //     if (value != null){
+            //             setSelectedOption(value['description'])
+            //     }
+            // }}
+            onInputChange={(event, value) => {
+                if (value != null) {
                     setSelectedOption(value['description'])
+                }
+            }}
+            onChange={(event, value) => {
+                if (value != null) {
+                    setSelectedOption(value['description'])
+                }
             }}
             renderInput={(params) => {
                 setInputValue(params.inputProps.value);

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import TopBar from './components/TopBar.js';
 import LocationButton from './components/LocationButton.js';
-import SearchLocation from './components/SearchLocation.js';
 import Center from 'react-center';
 import Table from './components/Table.js';
 import { Helmet } from 'react-helmet'
@@ -11,11 +10,13 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import ReactLoading from 'react-loading';
 import AutoCompleteSearch from './components/AutoCompleteSearch.js'
-import PlacesAutocomplete, {
+import BottomBar from './components/BottomBar.js'
+import {
   geocodeByAddress,
-  getLatLang,
   getLatLng,
 } from 'react-places-autocomplete';
+
+console.log = console.warn = console.error = () => {}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +32,6 @@ function App() {
   const [loading, setLoading] = useState(false);
   //contains all data
   const [apiData, setApiData] = useState(null);
-  const [result, setResult] = useState(" ");
   //contains table data
   const [sentApi, setSentApi] = useState(null);
 
@@ -42,9 +42,9 @@ function App() {
       setSentApi(file)).then(setLoading(false));
   }
 
-  function isEmptyOrSpaces(str) {
-    return str === null || str.match(/^ *$/) !== null;
-  }
+  // function isEmptyOrSpaces(str) {
+  //   return str === null || str.match(/^ *$/) !== null;
+  // }
 
   function handleAddressClick(location) {
     geocodeByAddress(location).then((loc_data) => getLatLng(loc_data[0]).then((latLng) => 
@@ -57,11 +57,11 @@ function App() {
     
   } 
 
-  async function fetchStringData(location) {
-    const url = "https://corona-19-hackathon.herokuapp.com/reverse/stats?loc=" + location;
-    const response = await fetch(url);
-    return await response.json();
-  }
+  // async function fetchStringData(location) {
+  //   const url = "https://corona-19-hackathon.herokuapp.com/reverse/stats?loc=" + location;
+  //   const response = await fetch(url);
+  //   return await response.json();
+  // }
 
   useEffect(() => { setLoading(true) }, [apiData]);
 
@@ -76,13 +76,8 @@ function App() {
 
   function renderInstructiions() {
     var temp = []
-    if(apiData['Safe Score'] > 75 && !apiData['Stay Home']){
-      temp[0] = 'Advised'
-    }
-    else{
-      temp[0] = 'Yes'
-    }
-    temp[1] = apiData['Stay Home'] ? '(Gov\'t Order Issued)' : '(No Gov\'t order issued)'
+    temp[0] = (apiData['Safe Score'] > 75 && !apiData['Stay Home']) ? 'Advised' : 'Yes'
+    temp[1] = apiData['Stay Home'] ? '(A shelter in place order has been issued in your location.)' : '(There are no shelter in place orders in your location. )'
 
     return temp
     // if (apiData['Safe Score'] <= 75 && apiData['Stay Home']) {
@@ -106,10 +101,10 @@ function App() {
         <style>{'body { background-color: #F5F5F5 }'}</style>
       </Helmet>
       <TopBar className='bar' />
-      <Center style={{ paddingTop: '20px' }}>
+      <Center position="fixed" style={{ paddingTop: '55px' }}>
         <Paper elevation={3} style={{ padding: 20 }} >
           <Typography variant='h4' color='inherit' align='center' >
-            Should I social distance myself?
+            Is it safe to go outside?
           </Typography>
 
           {apiData != null ? <div className={classes.root}>
@@ -124,9 +119,11 @@ function App() {
 
       </Center>
       <Center>
+        {/* <div> */}
         <LocationButton className={classes.locationButton} onChildClick={handleChildClick} />
         <Typography color='inherit' style={{paddingRight: '40px'}}> OR </Typography>
-        <AutoCompleteSearch className={classes.searchButton} onChildClick={handleAddressClick}></AutoCompleteSearch>
+        <AutoCompleteSearch className={classes.searchButton} onChildClick={handleAddressClick}/>
+        {/* </div> */}
       </Center>
 
       {loading ? null : <div> <Center><ReactLoading type="spin" color='#5fb4ed' height={100} width={100} /></Center>
@@ -139,6 +136,7 @@ function App() {
       <Center>
         {sentApi != null ? <Table className='table' data={sentApi} /> : null}
       </Center>
+      <BottomBar className='bar'/>
     </div>
   );
 }

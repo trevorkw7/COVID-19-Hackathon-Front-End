@@ -5,6 +5,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import TableBody from '@material-ui/core/TableBody';
 import Paper from '@material-ui/core/Paper';
 import IconButton from '@material-ui/core/IconButton';
 import InfoIcon from '@material-ui/icons/Info';
@@ -19,7 +20,7 @@ import Box from '@material-ui/core/Box';
 import { scaleLinear } from 'd3-scale';
 
 
-var colorScale = scaleLinear().domain([0, 50, 100]).range(["#ff2626","#ffa719", "#5bff2e"]);
+var colorScale = scaleLinear().domain([0, 50, 100]).range(["#ff2626", "#ffa719", "#5bff2e"]);
 // function rgbToHex(rgb) {
 //   rgb.r
 //   return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
@@ -40,12 +41,12 @@ const useStyles = makeStyles({
 });
 
 const criteriaDescription = ["Description: Total Active Cases in County. Calculation: (Total Cases - Recoveries - Deaths).  Source: John Hopkins CSSE."
-, "Description: Linear Multiplier For Death Rate Increase Over 5 Day Period. Calculation: (current death rate - death rate 5 days ago / 5). Source: John Hopkins CSSE.",
-"Description: Total Deaths in County Due To COVID-19. Source: John Hopkins CSSE.",
- "Description: Population count in county of people 65 and older. Source: US Census Bureau - 2011.",
- "Description: Linear Multiplier For Infection Rate Increase Over 5 Day Period. Calculation: (current infection rate - infection rate 5 days ago / 5). Source: John Hopkins CSSE.", 
- "Description: People per square mile in county. Source US Census Bureau - 2011.", 
- "Description: Cumulative index used to determine location safety based on the following factors: Active Cases, Population Density, Infected Rate Growth, Death Rate Growth, Deaths, High Risk Population. Calculation: Sources: US Census Bureau, John Hopkins Dataset"]
+  , "Description: Linear Multiplier For Death Rate Increase Over 5 Day Period. Calculation: (current death rate - death rate 5 days ago / 5). Source: John Hopkins CSSE.",
+  "Description: Total Deaths in County Due To COVID-19. Source: John Hopkins CSSE.",
+  "Description: Population count in county of people 65 and older. Source: US Census Bureau - 2011.",
+  "Description: Linear Multiplier For Infection Rate Increase Over 5 Day Period. Calculation: (current infection rate - infection rate 5 days ago / 5). Source: John Hopkins CSSE.",
+  "Description: People per square mile in county. Source US Census Bureau - 2011.",
+  "Description: Cumulative index used to determine location safety based on the following factors: Active Cases, Population Density, Infected Rate Growth, Death Rate Growth, Deaths, High Risk Population. Calculation: Sources: US Census Bureau, John Hopkins Dataset"]
 
 const SimpleTable = (props) => {
 
@@ -57,8 +58,8 @@ const SimpleTable = (props) => {
     delete data[remove[i]]
   }
 
-  
- 
+
+
   let entries = Object.entries(data);
 
   const classes = useStyles();
@@ -102,11 +103,16 @@ const SimpleTable = (props) => {
       <TableContainer component={Paper}>
         <Table className={classes.table} aria-label="simple table">
           <TableHead>
-            <TableCell align="right" style={{ maxWidth: '10px' }}></TableCell>
+          <TableRow>
+            <TableCell align="right" style={{ maxWidth: '10px' }} />
             <TableCell align="center">
               Criteria
               </TableCell>
-            <TableCell align="center">Result</TableCell>
+              <TableCell align="center">Result</TableCell>
+              </TableRow>
+          </TableHead>
+          <TableBody>
+
             {entries.map((caption, index) => (
               <React.Fragment key={caption}>
                 <TableRow>
@@ -135,14 +141,15 @@ const SimpleTable = (props) => {
                     {caption[0]}
                   </TableCell>
                   <TableCell align="center" className={classes.cell} key={caption[1]}>
-                    <Typography style = {{color:caption[0] == 'Safe Score' ? colorScale(data["Safe Score"]) : 'inherit'}}>
-                    {caption[0] == 'Safe Score' ? caption[1] + ' / 100 ' : caption[1]}  
+                    <Typography style={{ color: caption[0] === 'Safe Score' ? colorScale(data["Safe Score"]) : 'inherit' }}>
+                      {caption[0] === 'Safe Score' ? caption[1] + ' / 100 ' : caption[1]}
                     </Typography>
                   </TableCell>
                 </TableRow>
-              </React.Fragment>
-            ))}
-          </TableHead>
+            
+            </React.Fragment>
+          ))}
+        </TableBody>
         </Table>
       </TableContainer>
     </div>

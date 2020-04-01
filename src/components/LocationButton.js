@@ -36,12 +36,12 @@ export default function LocationButton({ onChildClick }) {
         <div className={classes.root}>
             <div id="container" align="center">
                 <div className="item">
-                    <IconButton style={{paddingBottom: '0px'}}aria-label='get-location' color="secondary" onClick={getLocation}>
-                        <LocationOnIcon style={{ fontSize: 100 }} />
+                    <IconButton style={{ paddingBottom: '0px' }} aria-label='get-location' color="secondary" onClick={getLocation}>
+                        <LocationOnIcon style={{ fontSize: 80 }} />
                     </IconButton>
                 </div>
-                <Typography variant="h6" color = "secondary">
-                Click me!
+                <Typography variant="h6" color="secondary">
+                    Click me!
                 </Typography>
                 <div className="circle"></div>
             </div>

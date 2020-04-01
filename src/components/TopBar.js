@@ -7,6 +7,10 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 0,
+  },
+  topBar:{
+    top: 0,
+    bottom: "auto",
   }
 }));
 
@@ -15,10 +19,10 @@ export default function TopBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color='primary'>
+      <AppBar className={classes.topBar} position="fixed" color='primary'>
         <Toolbar variant="dense">
           <Typography variant="h5" color="inherit">
-            Safe Score: A Social Distance Determiner (USA Only)
+            Safe Score (USA Only)
           </Typography>
         </Toolbar>
       </AppBar>
