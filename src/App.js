@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import ReactLoading from 'react-loading';
 import AutoCompleteSearch from './components/AutoCompleteSearch.js'
-import BottomBar from './components/BottomBar.js'
+// import BottomBar from './components/BottomBar.js'
 import {
   geocodeByAddress,
   getLatLng,
