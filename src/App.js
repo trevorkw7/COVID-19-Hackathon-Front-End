@@ -76,7 +76,7 @@ function App() {
 
   function renderInstructiions() {
     var temp = []
-    temp[0] = (apiData['Safe Score'] > 75 && !apiData['Stay Home']) ? 'Advised' : 'Yes'
+    temp[0] = (apiData['Safe Score'] > 75 && !apiData['Stay Home']) ? 'Avoid' : 'No'
     temp[1] = apiData['Stay Home'] ? '(A shelter in place order has been issued in your location.)' : '(There are no shelter in place orders in your location. )'
 
     return temp
