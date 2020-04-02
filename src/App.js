@@ -136,7 +136,7 @@ function App() {
       <Center>
         {sentApi != null ? <Table className='table' data={sentApi} /> : null}
       </Center>
-      <BottomBar className='bar'/>
+//       <BottomBar className='bar'/>
     </div>
   );
 }
