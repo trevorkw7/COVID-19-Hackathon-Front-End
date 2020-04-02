@@ -41,12 +41,12 @@ const useStyles = makeStyles({
 });
 
 const criteriaDescription = ["Description: Total Active Cases in County. Calculation: (Total Cases - Recoveries - Deaths).  Source: John Hopkins CSSE."
-  , "Description: Linear Multiplier For Death Rate Increase Over 5 Day Period. Calculation: (current death rate - death rate 5 days ago / 5). Source: John Hopkins CSSE.",
-  "Description: Total Deaths in County Due To COVID-19. Source: John Hopkins CSSE.",
+  , "Description: Deaths % increase over 5 day period. Calculation: 20 * (Deaths Today - Death 5 Days Ago). Source: John Hopkins CSSE.",
+  "Description: Total deaths in county due to COVID-19. Source: John Hopkins CSSE.",
   "Description: Population count in county of people 65 and older. Source: US Census Bureau - 2011.",
-  "Description: Linear Multiplier For Infection Rate Increase Over 5 Day Period. Calculation: (current infection rate - infection rate 5 days ago / 5). Source: John Hopkins CSSE.",
+  "Description: Infections % increase over 5 day period. Calculation: 20 * (Infections today - Infections 5 Days ago). Source: John Hopkins CSSE.",
   "Description: People per square mile in county. Source US Census Bureau - 2011.",
-  "Description: Cumulative index used to determine location safety based on the following factors: Active Cases, Population Density, Infected Rate Growth, Death Rate Growth, Deaths, High Risk Population. Calculation: Sources: US Census Bureau, John Hopkins Dataset"]
+  "Description: Cumulative index used to determine location safety based on the following factors: Active Cases, Population Density, Infected Rate Growth, Death Rate Growth, Deaths, High-Risk Population. Calculation: Sources: US Census Bureau, John Hopkins Dataset"]
 
 const SimpleTable = (props) => {
 
@@ -97,6 +97,16 @@ const SimpleTable = (props) => {
     popupId: 'demoPopover',
   })
 
+  function getTrueCaption(caption){
+    switch(caption){
+      case 'High Risk Population': return 'Percent High Risk';
+      case 'Death Rate Growth' : return '5-Day Death Rate Growth';
+      case 'Infected Rate Growth': return '5-Day Infected Rate Growth';
+      case 'Deaths' : return 'Total Deaths'
+      default: return caption;
+    }
+  }
+
 
   return (
     <div>
@@ -138,11 +148,14 @@ const SimpleTable = (props) => {
                       </Box>
 
                     </Popover>
-                    {caption[0]}
+                    {getTrueCaption(caption[0])}
                   </TableCell>
                   <TableCell align="center" className={classes.cell} key={caption[1]}>
                     <Typography style={{ color: caption[0] === 'Safe Score' ? colorScale(data["Safe Score"]) : 'inherit' }}>
                       {caption[0] === 'Safe Score' ? caption[1] + ' / 100 ' : caption[1]}
+                      {caption[0] === 'High Risk Population' ? '%' : null}
+                      {caption[0] === 'Infected Rate Growth' ? '%' : null}
+                      {caption[0] === 'Death Rate Growth' ? '%' : null}
                     </Typography>
                   </TableCell>
                 </TableRow>
