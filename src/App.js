@@ -102,7 +102,7 @@ function App() {
         <style>{'body { background-color: #F5F5F5 }'}</style>
       </Helmet>
       <TopBar className='bar' />
-      <Center position="fixed" style={{ paddingTop: '55px',paddingBottom: '12px' }}>
+      <Center position="fixed" style={{ paddingTop: '55px', paddingBottom: '45px' }}>
         <Paper elevation={3} style={{ padding: 20 }} >
           <Typography variant='h4' color='inherit' align='center' >
             Is it safe to go outside?
