@@ -16,13 +16,13 @@ import { IconButton } from "@material-ui/core";
 
 console.log = console.warn = console.error = () => {};
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     width: "auto",
     height: "auto",
     // padding: '10px, 10px, 10px, 10px',
-    backgroundColor: theme.palette.background.paper
-  }
+    backgroundColor: theme.palette.background.paper,
+  },
 }));
 
 function App() {
@@ -33,9 +33,9 @@ function App() {
   const [sentApi, setSentApi] = useState(null);
 
   function handleChildClick(latitude, longitude) {
-    fetchData(latitude, longitude).then(file => setApiData(file));
+    fetchData(latitude, longitude).then((file) => setApiData(file));
     fetchData(latitude, longitude)
-      .then(file => setSentApi(file))
+      .then((file) => setSentApi(file))
       .then(setLoading(false));
   }
 
@@ -44,11 +44,13 @@ function App() {
   // }
 
   function handleAddressClick(location) {
-    geocodeByAddress(location).then(loc_data =>
-      getLatLng(loc_data[0]).then(latLng => {
-        fetchData(latLng["lat"], latLng["lng"]).then(file => setApiData(file));
+    geocodeByAddress(location).then((loc_data) =>
+      getLatLng(loc_data[0]).then((latLng) => {
+        fetchData(latLng["lat"], latLng["lng"]).then((file) =>
+          setApiData(file)
+        );
         fetchData(latLng["lat"], latLng["lng"])
-          .then(file => setSentApi(file))
+          .then((file) => setSentApi(file))
           .then(setLoading(false));
       })
     );
@@ -168,10 +170,10 @@ function App() {
         ) : null}
       </Center>
 
-      <Center style={{ paddingBottom: "100px" }}>
+      <Center style={{ paddingBottom: "auto" }}>
         {sentApi != null ? <Table className="table" data={sentApi} /> : null}
       </Center>
-      <BottomBar id="bottomBar" className="bar" />
+      {/* <BottomBar id="bottomBar" className="bar" /> */}
     </div>
   );
 }
