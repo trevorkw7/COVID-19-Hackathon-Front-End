@@ -10,11 +10,12 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import ReactLoading from 'react-loading';
 import AutoCompleteSearch from './components/AutoCompleteSearch.js'
-// import BottomBar from './components/BottomBar.js'
+import BottomBar from './components/BottomBar.js'
 import {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
+import { IconButton } from '@material-ui/core';
 
 console.log = console.warn = console.error = () => {}
 
@@ -76,7 +77,7 @@ function App() {
 
   function renderInstructiions() {
     var temp = []
-    temp[0] = (apiData['Safe Score'] > 75 && !apiData['Stay Home']) ? 'Avoid' : 'No'
+    temp[0] = (apiData['Safe Score'] > 75 && !apiData['Stay Home']) ? 'Avoid*' : 'No*'
     temp[1] = apiData['Stay Home'] ? '(A shelter in place order has been issued in your location.)' : '(There are no shelter in place orders in your location. )'
 
     return temp
@@ -101,16 +102,17 @@ function App() {
         <style>{'body { background-color: #F5F5F5 }'}</style>
       </Helmet>
       <TopBar className='bar' />
-      <Center position="fixed" style={{ paddingTop: '55px',paddingBottom: '55px' }}>
+      <Center position="fixed" style={{ paddingTop: '55px',paddingBottom: '12px' }}>
         <Paper elevation={3} style={{ padding: 20 }} >
           <Typography variant='h4' color='inherit' align='center' >
             Is it safe to go outside?
           </Typography>
 
           {apiData != null ? <div className={classes.root}>
-            <React.Fragment><Typography variant='h2' color='inherit' align='center'>
+            <React.Fragment>
+              <Typography variant='h2' color='inherit' align='center'>
               {renderInstructiions()[0]}
-            </Typography>
+              </Typography>
               <Typography variant='body1' color='inherit' align='center'>
                 {renderInstructiions()[1]}
               </Typography> </React.Fragment> </div> : null}
@@ -136,7 +138,7 @@ function App() {
       <Center>
         {sentApi != null ? <Table className='table' data={sentApi} /> : null}
       </Center>
-       {/* <BottomBar className='bar'/> */}
+       <BottomBar className='bar'/>
     </div>
   );
 }
